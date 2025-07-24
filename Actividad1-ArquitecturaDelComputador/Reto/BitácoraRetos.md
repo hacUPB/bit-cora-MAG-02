@@ -55,7 +55,7 @@ sum = 0
 sum = sum + i
 i = i + 1
 ```
-La traducción a lenguaje ensamblador del programa anterior es:
+### La traducción a lenguaje ensamblador del programa anterior es:
 ```asm
 // i = 1
 @i
@@ -74,8 +74,10 @@ D=M+1
 @i
 M=D
 ```
-* **¿Qué hace este programa?**
-* **¿En qué parte de la memoria RAM está la variable *i* y *sum*? ¿Por qué en esas posiciones?**
+* **¿Qué hace este programa?**  
+Este programa crea 2 variables (*i* y *sum*), les asigna los valores 1 y 0 respectivamente, suma *i* a *sum*, y finalmente aumenta en 1 el valor de *i*.
+* **¿En qué parte de la memoria RAM está la variable `i` y `sum`? ¿Por qué en esas posiciones?**  
+Al igual que en el Reto 8, estarán en las posiciones 16 y 17, debido a los "virtual registers".
 * **Optimiza esta parte del código para que use solo 2 instrucciones:**
 ```asm
 // i = i + 1
@@ -84,3 +86,85 @@ D=M+1
 @i
 M=D
 ```
+```asm
+//OPTIMIZACIÓN
+// i = i + 1 ---> i += 1
+@i
+M=M+1
+```
+
+# Reto 10
+### Las posiciones de memoria RAM de 0 a 15 tienen los nombres simbólico `R0` a `R15`. Escribe un programa en lenguaje ensamblador que guarde en `R1` la operación `2 * R0`.
+```asm
+@R0
+D=M
+D=D+M
+
+@R1
+M=D
+```
+Este código no resulta muy complejo. Es simplemente escribir una multiplicación en forma de suma :p
+
+# Reto 11
+### Considera el siguiente programa:
+```c++
+i = 1000
+LOOP:
+if (i == 0) goto CONT
+i = i - 1
+goto LOOP
+CONT:
+```
+### La traducción a lenguaje ensamblador del programa anterior es:
+```asm
+// i = 1000
+@1000
+D=A
+@i
+M=D
+(LOOP)
+// if (i == 0) goto CONT
+@i
+D=M
+@CONT
+D;JEQ
+// i = i - 1
+@i
+M=M-1
+// goto LOOP
+@LOOP
+0;JMP
+(CONT)
+```
+- **¿Qué hace este programa?**  
+El programa
+- **¿En qué memoria está almacenada la variable `i`? ¿En qué dirección de esa memoria?**  
+En la posición 16 de la RAM.
+- **¿En qué memoria y en qué dirección de memoria está almacenado el comentario //`i = 1000`?**  
+Los comentarios solo existen en el archivo .asm, y no afectan ni se guardan en RAM o ROM.
+- **¿Cuál es la primera instrucción del programa anterior? ¿En qué memoria y en qué dirección de memoria está almacenada esa instrucción?**  
+La primera instrucción es "`@1000`". Esta instrucción se guarda en la posición 0 de la ROM.
+- **¿Qué son CONT y LOOP?**  
+Son *labels*. Sirven para volver fácilmente a ciertas partes específicas del código.
+- **¿Cuál es la diferencia entre los símbolos `i` y `CONT`?**  
+`i` es una variable, `CONT` es un label. El uno puede almacenar información, mientras que el otro simplemente representa una posición en la ROM a la que se puede saltar.
+
+# Reto 12
+### Implemente en ensamblador:
+```c++
+R4 = R1 + R2 + 69
+```
+```asm
+@R1
+D=M
+@R2
+D=D+M
+@69
+D=D+A
+
+@R4
+M=D
+```
+Facilito! Creo que ya le cogí el tiro al Assembly, por lo menos pa' la parte de sumas y tal :>
+
+# Reto 13
