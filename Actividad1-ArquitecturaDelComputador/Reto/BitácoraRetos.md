@@ -168,3 +168,59 @@ M=D
 Facilito! Creo que ya le cogí el tiro al Assembly, por lo menos pa' la parte de sumas y tal :>
 
 # Reto 13
+### Implementa en ensamblador:
+```c++
+if R0 >= 0 then R1 = 1
+else R1 = –1
+
+(LOOP)
+goto LOOP
+```
+```asm
+@R0
+D=M
+@POS
+D;JGE
+
+@R1
+M=-1
+@END
+0;JMP
+
+(POS)
+@R1
+M=1
+(END)
+
+
+(LOOP)
+@LOOP
+0;JMP
+```
+Okay este no estuvo tan facilito pero también se resolvió. El tener un ejemplo en la documentación fue de mucha ayuda, pero me alegra haber podido entender propiamente el funcionamiento del código.
+
+# Reto 14
+### Implementa en ensamblador:
+```c++
+R4 = RAM[R1]
+```
+```asm
+@R1
+A=M
+
+D=M
+@R4
+M=D
+```
+Este me dio duro porque no entendía bien el enunciado, pero una vez me lo explicó un compañero, fue comprensible. Lo más extraño/interesante fue usar `A=M` para saltar a una posición específica en la *RAM*.
+
+# Reto 15
+### Implementa en ensamblador el siguiente problema. En la posición R0 está almacenada la dirección inicial de una región de memoria. En la posición R1 está almacenado el tamaño de la región de memoria. Almacena un -1 en esa región de memoria.
+```asm
+
+```
+Uy mano, la verdad aquí sí morí :\
+
+# Reto 18
+### Utiliza [esta](https://nand2tetris.github.io/web-ide/bitmap) herramienta para dibujar un bitmap en la pantalla.
+Estuvo divertido dibujar, pero estuvo muy preocupante ver la longitud del código que es necesario para un proceso que se siente y se ve tan simple 💀
