@@ -217,10 +217,57 @@ Este me dio duro porque no entendía bien el enunciado, pero una vez me lo expli
 # Reto 15
 ### Implementa en ensamblador el siguiente problema. En la posición R0 está almacenada la dirección inicial de una región de memoria. En la posición R1 está almacenado el tamaño de la región de memoria. Almacena un -1 en esa región de memoria.
 ```asm
+@R1
+D=M
+@j
+M=D
+
+(LOOP)
+@R0
+D=M
+@j
+A=D+M
+
+M=-1
+
+@j
+D=M
+@END
+D;JEQ
+
+@j
+M=M-1
+@LOOP
+0;JMP
+
+(END)
+@END
+0;JMP
+```
+Este estuvo bastante complejo, la verdad. Fue cuestión de entender bien los LOOPs y hacerlos primero para asegurarse de que el código irá a donde uno desea.  
+También, aparentemente, lo hice al revés xd Mi código salta a la última posición del array y dismunuye :p
+
+# Reto 16
+### Implementa en lenguaje ensamblador el siguiente programa:
+```c++
+int[] arr = new int[10];
+int sum = 0;
+for (int j = 0; j < 10; j++) {
+    sum = sum + arr[j];
+}
+```
+```asm
 
 ```
-Uy mano, la verdad aquí sí morí :\
+- **¿Qué hace este programa?**  
+El programa crea un array de enteros con 10 espacios, una variable `sum` en 0, y luego suma el valor en cada espacio del array a `sum` utilizando un `for` y un auxiliar `j`.
+- **¿Cuál es la dirección base de arr en la memoria RAM?**
+- **¿Cuál es la dirección base de sum en la memoria RAM y por qué?**
+- **¿Cuál es la dirección base de j en la memoria RAM y por qué?**
 
 # Reto 18
 ### Utiliza [esta](https://nand2tetris.github.io/web-ide/bitmap) herramienta para dibujar un bitmap en la pantalla.
+
+![Resultado](Capturas/Bitmap.png)
+
 Estuvo divertido dibujar, pero estuvo muy preocupante ver la longitud del código que es necesario para un proceso que se siente y se ve tan simple 💀
