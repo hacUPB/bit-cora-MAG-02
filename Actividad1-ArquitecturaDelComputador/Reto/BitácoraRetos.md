@@ -33,3 +33,54 @@ Este debería ser fácil, creo yo.
 Efectivamente, sólo había que leer la Lecture 4 porque tienen el ejemplo clarito ahí :p (Pg. 62). Algo que me confunde es ¿por qué *D* aparece como 65490 cuando le resto 100? Estoy asumiendo que es simplemente la manera de manejar negativos de *Assembly*.
 
 # Reto 8
+### Considera el siguiente programa:
+```asm
+@var1
+D = M
+@var2
+D = D + M
+@var3
+M = D
+```
+* **¿Qué hace este programa?**  
+El programa suma los valores de 2 variables (var1 y var2) y almacena el resultado en la memoria de var3.
+* **¿En qué posición de la memoria está var1, var2, y var3? ¿Por qué en esas posiciones?**  
+Están en las posiciones 16, 17, y 18, respectivamente. Esto se debe a que las posiciones 0 a 15 son variables por defecto en Hack (se conocen como "virtual registers").
+
+# Reto 9
+### Considera el siguiente programa:
+```c++
+i = 1
+sum = 0
+sum = sum + i
+i = i + 1
+```
+La traducción a lenguaje ensamblador del programa anterior es:
+```asm
+// i = 1
+@i
+M=1
+// sum = 0
+@sum
+M=0
+// sum = sum + i
+@i
+D=M
+@sum
+M=D+M
+// i = i + 1
+@i
+D=M+1
+@i
+M=D
+```
+* **¿Qué hace este programa?**
+* **¿En qué parte de la memoria RAM está la variable *i* y *sum*? ¿Por qué en esas posiciones?**
+* **Optimiza esta parte del código para que use solo 2 instrucciones:**
+```asm
+// i = i + 1
+@i
+D=M+1
+@i
+M=D
+```
