@@ -305,6 +305,17 @@ Como el puesto 16 está ocupado por `sum`, `j` está en la posición 17.
 ```c++
 if ( (D - 7) == 0) goto a la instrucción en ROM[69]
 ```
+```asm
+@7
+D=D-A
+
+@69
+D;JEQ
+
+(END)
+@END
+0;JMP
+```
 
 # Reto 18
 ### Utiliza [esta](https://nand2tetris.github.io/web-ide/bitmap) herramienta para dibujar un bitmap en la pantalla.
@@ -314,3 +325,6 @@ if ( (D - 7) == 0) goto a la instrucción en ROM[69]
 Estuvo divertido dibujar, pero estuvo muy preocupante ver la longitud del código que es necesario para un proceso que se siente y se ve tan simple 💀
 
 # Reto 19
+Pendiente
+# Reto 20
+Pendiente
