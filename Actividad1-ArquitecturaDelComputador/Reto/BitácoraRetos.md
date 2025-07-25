@@ -257,13 +257,54 @@ for (int j = 0; j < 10; j++) {
 }
 ```
 ```asm
+@sum
+@j
+@arr
 
+@10
+D=A
+@j
+M=D
+
+(LOOP)
+@j
+D=M
+@END
+D;JEQ
+
+@arr
+D=A
+@j
+D=D+M
+A=D
+
+D=M
+@sum
+M=D+M
+
+@j
+M=M-1
+@LOOP
+0;JMP
+
+(END)
+@END
+0;JMP
 ```
 - **¿Qué hace este programa?**  
 El programa crea un array de enteros con 10 espacios, una variable `sum` en 0, y luego suma el valor en cada espacio del array a `sum` utilizando un `for` y un auxiliar `j`.
-- **¿Cuál es la dirección base de arr en la memoria RAM?**
-- **¿Cuál es la dirección base de sum en la memoria RAM y por qué?**
-- **¿Cuál es la dirección base de j en la memoria RAM y por qué?**
+- **¿Cuál es la dirección base de `arr` en la memoria RAM?**  
+En mi caso, `arr` se encuentra en la posición 18. Lo coloqué ahí para poder llenar fácilmente el array sin que otras variables estuvieran en el camino.
+- **¿Cuál es la dirección base de `sum` en la memoria RAM y por qué?**  
+Al ser inicializada de primera, `sum` se encuentra en la posición número 16, la primera disponible para variables.
+- **¿Cuál es la dirección base de `j` en la memoria RAM y por qué?**  
+Como el puesto 16 está ocupado por `sum`, `j` está en la posición 17.
+
+# Reto 17
+### Implementa en lenguaje ensamblador:
+```c++
+if ( (D - 7) == 0) goto a la instrucción en ROM[69]
+```
 
 # Reto 18
 ### Utiliza [esta](https://nand2tetris.github.io/web-ide/bitmap) herramienta para dibujar un bitmap en la pantalla.
@@ -271,3 +312,5 @@ El programa crea un array de enteros con 10 espacios, una variable `sum` en 0, y
 ![Resultado](Capturas/Bitmap.png)
 
 Estuvo divertido dibujar, pero estuvo muy preocupante ver la longitud del código que es necesario para un proceso que se siente y se ve tan simple 💀
+
+# Reto 19
