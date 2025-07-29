@@ -1,5 +1,5 @@
 # Actividad 1
-**En el capítulo 4 del libro “The Elements of Computing Systems” que puedes encontrar <ins>[aquí](https://www.nand2tetris.org/_files/ugd/44046b_7ef1c00a714c46768f08c459a6cab45a.pdf)</ins>, vas a repasar de nuevo cómo se realizan las operaciones de entrada y salida en la plataforma de cómputo que estamos estudiando, es decir, la plataforma Hack y la CPU Hack. También puedes ver <ins>[este video](https://youtu.be/gTOFd80QfBU?si=6FLpT907cx1Q_NDB)</ins>, si quieres, donde te explican el concepto. En la sección 4.2.5. vas a encontrar el concepto de entrada-salida mapeada a memoria o memory maped I/O. Analiza lo siguiente:**
+**En el capítulo 4 del libro “The Elements of Computing Systems” que puedes encontrar [aquí](https://www.nand2tetris.org/_files/ugd/44046b_7ef1c00a714c46768f08c459a6cab45a.pdf), vas a repasar de nuevo cómo se realizan las operaciones de entrada y salida en la plataforma de cómputo que estamos estudiando, es decir, la plataforma Hack y la CPU Hack. También puedes ver [este video](https://youtu.be/gTOFd80QfBU?si=6FLpT907cx1Q_NDB), si quieres, donde te explican el concepto. En la sección 4.2.5. vas a encontrar el concepto de entrada-salida mapeada a memoria o memory maped I/O. Analiza lo siguiente:**
 
 - **¿Qué es la entrada-salida mapeada a memoria?**  
 No sé equis de
