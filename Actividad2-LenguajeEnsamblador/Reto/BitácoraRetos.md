@@ -59,3 +59,55 @@ La posición de memoria *RAM* que ocupa. `@16` para `@i` y `@17` para `@sum`.
 
 - **¿Qué es el contenido de una variable?**  
 Puede ser cualquier número entero entre -32767 y 32768.
+
+# Reto 2
+### Transforma el programa en alto nivel anterior para que utilice un ciclo `for` en vez de un ciclo `while`.
+
+En realidad no hay diferenciación entre el ciclo `for` y el ciclo `while` en Assembly. Se podría interpretar/leer de manera diferente para decir que se está ejecutando un `for` en vez de un while o viceversa, pero en realidad no existe una diferencia explícita.
+
+# Reto 3
+### Escribe un programa en lenguaje ensamblador que implemente el programa anterior.
+
+# Reto 5
+### Traduce este programa a lenguaje ensamblador:
+```c++
+int var = 10;
+int *punt;
+punt = &var;
+*punt = 20;
+```
+
+# Reto 7
+### Traduce este programa a lenguaje ensamblador:
+```c++
+int var = 10;
+int bis = 5;
+int *p_var;
+p_var = &var;
+bis = *p_var;
+```
+
+# Reto 8
+### Vas a parar un momento y tratarás de recodar de memoria lo siguiente. Luego verifica con un compañero o con el profesor.
+- **¿Qué hace esto `int *pvar;`?**
+- **¿Qué hace esto `pvar = var;`?**
+- **¿Qué hace esto `var2 = *pvar`?**
+- **¿Qué hace esto `pvar = &var3`?**
+
+# Reto 9
+### Considera que el punto de entrada del siguiente programa es la función main, es decir, el programa inicia llamando la función main. Vas a proponer una posible traducción a lenguaje ensamblador de la función suma, cómo llamar a suma y cómo regresar a std::cout << "El valor de c es: " << c << std::endl; una vez suma termine.
+```c++
+#include <iostream>
+
+int suma(int a, int b) {
+   int var = a + b;
+   return var;
+}
+
+
+int main() {
+   int c = suma(6, 9);
+   std::cout << "El valor de c es: " << c << std::endl;
+   return 0;
+}
+```
