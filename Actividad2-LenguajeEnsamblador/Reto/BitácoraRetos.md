@@ -63,10 +63,22 @@ Puede ser cualquier número entero entre -32767 y 32768.
 # Reto 2
 ### Transforma el programa en alto nivel anterior para que utilice un ciclo `for` en vez de un ciclo `while`.
 
-En realidad no hay diferenciación entre el ciclo `for` y el ciclo `while` en Assembly. Se podría interpretar/leer de manera diferente para decir que se está ejecutando un `for` en vez de un while o viceversa, pero en realidad no existe una diferencia explícita.
+```c++
+int i = 1;
+int sum = 0;
+
+for (i = 1; i <= 100; i++)
+{
+   sum += i;
+}
+```
+Es un cambio simple que no afecta la funcionalidad, solo logra juntar el ciclo en sí con el aumento de la variable `i`.
+
 
 # Reto 3
 ### Escribe un programa en lenguaje ensamblador que implemente el programa anterior.
+
+En realidad, en lenguaje Assembly, el código es el mismo. Esto pasa porque, al no tener en sí los cilos `while` y `for`, es necesario utilizar saltos que no se rigen específicamente por alguna de las formas de ciclado de estas funciones de lenguajes de alto nivel.
 
 # Reto 5
 ### Traduce este programa a lenguaje ensamblador:
@@ -85,6 +97,13 @@ int bis = 5;
 int *p_var;
 p_var = &var;
 bis = *p_var;
+```
+Traducción:
+```
+@10
+D=A
+@var
+M=D
 ```
 
 # Reto 8
