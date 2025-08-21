@@ -30,7 +30,22 @@ Creamos un vector `vector<ofVec2f>` para almacenar `particles` y un objeto `ofCo
 La aplicación crea círculos (o partículas) en la ubicación del mouse cuando este se mueve, hasta un límite de 100 partículas (creo). Cuando se hace click, cambia el color de las partículas a uno aleatorio.
 - **¿Qué hace la función mouseMoved?**  
 Detecta que se movió el mouse, crea una partícula nueva y elimina la más antigua del vector.
-- **¿Qué hace la función mousePressed?**
-- **¿Qué hace la función setup?**
-- **¿Qué hace la función update?**
-- **¿Qué hace la función draw?**
+- **¿Qué hace la función mousePressed?**  
+Detecta que se presionó el click izquierdo del Mouse y cambia el color de las partículas a uno aleatorio.
+- **¿Qué hace la función setup?**  
+Crea un fondo de coor negro y asigna a las partículas el color blanco por defecto.
+- **¿Qué hace la función update?**  
+Nada :p
+- **¿Qué hace la función draw?**  
+Se encarga de crear/dibujar las partículas y asignarles el color actual.
+
+# Actividad 5
+- **¿Cuál es la definición de un puntero?**  
+Es una variable especial que almacena la ubicación de otra variable.
+- **¿Dónde está el puntero?**  
+Uy profe la verdad npi cómo así que dónde está?
+- **¿Cómo se inicializa el puntero?**  
+Se utiliza un `*` luego de nombrar la variable.
+- **¿Para qué se está usando el puntero?**
+- **¿Qué es exactamente lo que está almacenado en el puntero?**  
+La dirección en la RAM de la variable a la que apunta.
