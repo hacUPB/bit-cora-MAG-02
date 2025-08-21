@@ -39,13 +39,47 @@ Nada :p
 - **¿Qué hace la función draw?**  
 Se encarga de crear/dibujar las partículas y asignarles el color actual.
 
+# Actividad 3
+### Realiza un experimento con la aplicación anterior. Modifica alguna parte importante de su código.
+Hice que la app diera epilepsia LOL
+
 # Actividad 5
 - **¿Cuál es la definición de un puntero?**  
 Es una variable especial que almacena la ubicación de otra variable.
 - **¿Dónde está el puntero?**  
-Uy profe la verdad npi cómo así que dónde está?
+Los punteros están en `ofApp.h`, aquí:
+```c++
+private:
+    vector<Sphere*> spheres;
+    Sphere* selectedSphere;
+```
 - **¿Cómo se inicializa el puntero?**  
 Se utiliza un `*` luego de nombrar la variable.
-- **¿Para qué se está usando el puntero?**
+- **¿Para qué se está usando el puntero?**  
+Para guardar la ubicación de las distintas esferas creadas, y para recordar la dirección de la esfera seleccionada.
 - **¿Qué es exactamente lo que está almacenado en el puntero?**  
 La dirección en la RAM de la variable a la que apunta.
+
+# Actividad 6
+### El código anterior tiene un problema. ¿Puedes identificar cuál es? ¿Cómo lo solucionarías? Recuerda que deberías poder seleccionar una esfera y moverla con el mouse.
+El problema real no fue hacer que se pudiera seleccionar cualquier esfera, sino el poder soltarla. El código simlpemente no tenía un método/una forma de soltar la esfera. La añadí así:
+```c++
+void ofApp::mousePressed(int x, int y, int button) {
+
+    if (button == OF_MOUSE_BUTTON_LEFT) {
+        if (selectedSphere == nullptr) {
+            for (auto sphere : spheres) {
+                float distance = ofDist(x, y, sphere->getX(), sphere->getY());
+                if (distance < sphere->getRadius()) {
+
+                    selectedSphere = sphere;
+                    break;
+                }
+            }
+        }
+        else {
+            selectedSphere = nullptr;
+        }
+    }
+}
+```
