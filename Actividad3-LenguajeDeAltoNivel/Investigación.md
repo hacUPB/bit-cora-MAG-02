@@ -83,3 +83,36 @@ void ofApp::mousePressed(int x, int y, int button) {
     }
 }
 ```
+
+# Actividad 7
+### Ahora te voy a proponer que reflexiones profundamente sobre el manejo de la memoria en un programa. Se trata de un experimento en el que tienes que analizar por qué está funcionando mal.
+- **¿Qué sucede cuando presionas la tecla "c"?**  
+Big problem: El código no me quiere compilar :c Lo intentaré de nuevo en casita :>
+#### Realiza esta modificación a la función createObjectInStack donde claramente se está creando un objeto, pero se está creando en el heap y no en el stack, así que no te dejes confundir por el nombre de la función.
+- **¿Qué sucede cuando presionas la tecla “c”?**  
+Ans
+- **¿Por qué ocurre esto?**  
+Ans
+
+# Actividad 8
+### Construye un experimento (un programa) en el que puedas crear y dibujar objetos que se almacenan:
+- **En el `heap`.**
+- **En el `stack`.**
+- **En memoria global.**  
+Va, de una, firme, se le tiene profe 🫡
+```cpp
+```
+- **¿Cuándo debo crear objetos en el heap y cuándo en memoria global?**  
+Ans
+
+# Actividad 9
+- **¿Qué sucede cuando presionas la tecla “f”?**  
+Ans
+- **Analiza detalladamente esta parte del código:**  
+```cpp
+if(!heapObjects.empty()) {
+    delete heapObjects.back();
+    heapObjects.pop_back();
+}
+```
+Ans
