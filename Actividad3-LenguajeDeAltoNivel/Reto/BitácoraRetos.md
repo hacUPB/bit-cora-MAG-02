@@ -80,9 +80,20 @@ bool ofApp::rayIntersectsSphere(const glm::vec3& rayStart, const glm::vec3& rayD
 }
 ```
 
+### Proceso
+So, esta actividad me tenía re perdido al principio xd  
+A
+
+### Entregables
+
 1. **Código Fuente de la Aplicación**  
 ```c++
-Wiiiiiii
+XXXX    XXXX
+XXXX    XXXX
+    XXXX
+  XXXXXXXX
+  XXXXXXXX
+  XX    XX
 ```
 2. **Informe de Manejo de Memoria**  
 En este Reto, `[...]`
