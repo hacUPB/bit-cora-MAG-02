@@ -1,4 +1,4 @@
-# Experiencia de Aprendizaje : Estructuras de Datos
+# Experiencia de Aprendizaje 4: Estructuras de Datos
 
 ## Actividad 1:
 #### 1. **Entiende la aplicación:** comienza explorando detenidamente cómo funciona el programa. Usa un un modelo del lenguaje como ChatGPT y el depurador para que verifiques las explicaciones que te propone ChatGPT. Puedes escribir el prompt: *"Se requiere entender de manera muy detallada el siguiente programa escrito en C++ y el OpenFrameworks"*. Luego le das el código. Ve preguntando lo que no entiendas. Recuerda ir usando al mismo tiempo el depurador de visual studio.
