@@ -77,7 +77,7 @@ public:
 ¡No lo afectan! Resulta y acontece que los valores estáticos se guardan en *otro* espacio de memoria, entonces el tamaño de una instancia no tiene en cuenta esos datos.
 
 #### ¿Qué diferencias hay entre datos estáticos y dinámicos en términos de memoria?
-Ah shit ni miré nada de DynamicData :c
+Los datos estáticos se almacenan en otra sección de memoria (`.bss` o `.data`), entonces no ocupan espacio en la `heap` o el `STACK`. Los datos dinámicos o, en este caso, el puntero que lleva a esos datos, ocupan 8 bytes porque están en la `heap`, y se necesita un puntero más grande para definir  direcciones en esta.
 
 #### Prompt para ChatGPT: explícame cómo el uso de variables estáticas y dinámicas en una clase afecta el tamaño de sus instancias. ¿Las variables estáticas ocupan espacio en cada objeto?
 Later
