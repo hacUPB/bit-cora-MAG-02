@@ -101,3 +101,27 @@ Los atributos conforman todo el tamaño de un objeto, y están ubicados en orden
 #### Conclusión: resumir los hallazgos y cómo esto impacta el diseño de clases.
 Trabajar POO en C++ es gracioso, aún no entiendo bien las estructuras pero ahí vamos wooo. En fin, más que todo diría que el mayor hallazgo es el funcionamiento de la memoria en C++, y cómo los atributos de cada objeto son empaquetados en la memoria empezando en la ubicación del objeto. También me parece muy increíble que los atributos estáticos no ocupan memoria por cada instancia y que los punteros de la `heap` ocupan más espacio por estar en un sistema de 64 bits. Creo que eso último es algo muy simple pero me parece muy chévere :p
 
+## Análisis de la estructura de una clase
+
+- **Datos:** los atributos se almacenan en el stack o heap, según cómo se instancien.
+- **Métodos:** el código de los métodos reside en la sección de código (texto) del programa.
+- **Vtables:** estructuras usadas para implementar métodos virtuales.
+
+**Prompt para ChatGPT:** ¿Dónde se almacenan los datos y métodos de una clase en C++ en la memoria? Explica el concepto de vtable y cómo se relaciona con los métodos virtuales. 
+
+> ℹ️ Prueba rápida de Callouts  
+>
+> A ver cómo se ve esta carajada :p
+
+Respuesta de ChatGPT:
+> Cuando creas un objeto de una clase (por ejemplo, `Particle p(1,2);`), lo que se guarda en memoria es solo el **conjunto de atributos (datos miembro)**.  
+> * Los **métodos** no viven dentro del objeto. Están compilados como funciones normales en la sección de **código** (text segment) del programa.  
+>
+> Cuando escribes `p.move(1,2)`, lo que realmente pasa es que el compilador traduce eso a una llamada de función donde `p` se pasa como puntero oculto (`this`).
+Así que el objeto `no almacena el código del método`, solo sus datos. El código está en otra parte (segmento de código).  
+>
+> **¿Qué pasa con los métodos virtuales?**  
+> Aquí aparece el concepto de **vtable** *(virtual table).*
+> * Una *vtable* es una tabla (arreglo de punteros a funciones) que el compilador genera automáticamente para clases con métodos virtuales.
+> * Cada **clase con virtuales** tiene su propia vtable.
+> * Cada **objeto de esa clase** guarda un puntero oculto a la vtable, llamado **vptr** (virtual pointer).
