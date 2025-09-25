@@ -21,7 +21,14 @@ La posición `x`, `y` de una partícula y su movimiento `move()`.
 El método `move()` modifica la posición `x`, `y` de la partícula.
 
 #### Prompt para ChatGPT: Explícame en detalle qué es un objeto en C++ y cómo se relaciona con una clase. Usa el ejemplo de una clase Particle con atributos `x` y `y` y un método `move`.
-Later
+Respuesta de ChatGPT:
+
+>**¿Clase vs objeto?**
+>
+>- **Clase = plantilla / blueprint / tipo.** Define qué datos (atributos) y qué comportamiento (métodos) tendrá un objeto.
+>
+>- **Objeto = instancia de esa clase:** es un bloque concreto de memoria que contiene los datos definidos por la clase y puede ejecutar sus métodos.
+En términos simples: la clase es la receta; el objeto es el pastel que hiciste con esa receta.
 
 ## Explorando la Memoria
 
@@ -33,7 +40,7 @@ Yes! Eso permite que, a partir de la ubicación en memoria de un objeto específ
 La cantidad y el tipo de atributos que tiene.
 
 #### Prompt para ChatGPT: ¿Cómo se almacenan los objetos en memoria en C++? Si tengo dos instancias de Particle, ¿Cómo se relacionan sus direcciones de memoria? ¿Los atributos están contiguos?
-Later
+Se le preguntó al profesor :p Los atributos y objetos están contiguos. La dirección/ubicación de un objeto es simplemente el lugar donde empiezan a listarse sus atributos y, cuando estos se terminan, empieza el otro objeto y sus atributos.
 
 ## Análisis de diferencias
 ```cpp
@@ -80,4 +87,17 @@ public:
 Los datos estáticos se almacenan en otra sección de memoria (`.bss` o `.data`), entonces no ocupan espacio en la `heap` o el `STACK`. Los datos dinámicos o, en este caso, el puntero que lleva a esos datos, ocupan 8 bytes porque están en la `heap`, y se necesita un puntero más grande para definir  direcciones en esta.
 
 #### Prompt para ChatGPT: explícame cómo el uso de variables estáticas y dinámicas en una clase afecta el tamaño de sus instancias. ¿Las variables estáticas ocupan espacio en cada objeto?
-Later
+Se le preguntó al profesor :p Las variables estáticas no ocupan espacio en cada objeto, sino que se van a la sección `.bss` o `.data`, y se referencian desde allá por cada objeto.
+
+## Reflexión
+Documenta en tu bitácora de aprendizaje:
+
+#### ¿Qué es un objeto desde la perspectiva de la memoria?
+Un objeto es básicamente un conjunto de atributos (en términos de memoria), ya que el objeto en sí simplemente determina dónde empieza la lista de sus atributos en memoria, y ocupa el espacio de sus atributos.
+
+#### ¿Cómo influyen los atributos y métodos en el tamaño y estructura del objeto?
+Los atributos conforman todo el tamaño de un objeto, y están ubicados en orden en la memoria (empezando en la ubicación del objeto). Los métodos no ocupan espacio en una instancia de una clase, ya que estos se almacenan en un espacio diferente de la memoria.
+
+#### Conclusión: resumir los hallazgos y cómo esto impacta el diseño de clases.
+Trabajar POO en C++ es gracioso, aún no entiendo bien las estructuras pero ahí vamos wooo. En fin, más que todo diría que el mayor hallazgo es el funcionamiento de la memoria en C++, y cómo los atributos de cada objeto son empaquetados en la memoria empezando en la ubicación del objeto. También me parece muy increíble que los atributos estáticos no ocupan memoria por cada instancia y que los punteros de la `heap` ocupan más espacio por estar en un sistema de 64 bits. Creo que eso último es algo muy simple pero me parece muy chévere :p
+
