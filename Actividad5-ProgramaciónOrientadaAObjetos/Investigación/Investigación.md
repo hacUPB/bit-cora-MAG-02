@@ -109,11 +109,7 @@ Trabajar POO en C++ es gracioso, aún no entiendo bien las estructuras pero ahí
 
 **Prompt para ChatGPT:** ¿Dónde se almacenan los datos y métodos de una clase en C++ en la memoria? Explica el concepto de vtable y cómo se relaciona con los métodos virtuales. 
 
-> ℹ️ Prueba rápida de Callouts  
->
-> A ver cómo se ve esta carajada :p
-
-Respuesta de ChatGPT:
+#### Respuesta de ChatGPT:
 > Cuando creas un objeto de una clase (por ejemplo, `Particle p(1,2);`), lo que se guarda en memoria es solo el **conjunto de atributos (datos miembro)**.  
 > * Los **métodos** no viven dentro del objeto. Están compilados como funciones normales en la sección de **código** (text segment) del programa.  
 >
