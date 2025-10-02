@@ -67,3 +67,23 @@ public:
 };
 ```
 ###### Me parece extraño el orden en el constructor. ¿Por qué `c++` pone así las variables después del `:` y las `,`?
+Habiendo creado ya la clase padre, hacer las subclases se vuelve muy fácil. Lo más complejo es hacer que, de alguna manera, cada figura tenga alguna característica diferente...
+
+Algo que noté haciendo la clase `Circle`: En los métodos dentro de la subclase es necesario utilizar `getColor()` y `getSize()` debido a su encapsulamiento (*private*). Es lógico, solo no lo había conectado aún :p
+
+```cpp
+class Circle : Shape {
+public:
+	//Constructor
+	Circle(ofColor color, float size, int key) : Shape(color, size, key) {}
+
+	void draw(float x, float y) override {
+		ofSetColor(getColor());
+		ofDrawCircle(x, y, getSize());
+	}
+
+    void fun() override {
+	setSize(ofRandom(10, 50)); //Cambiar de tamaño a uno rándom
+    }
+};
+```
