@@ -272,8 +272,39 @@ void ofApp::keyPressed(int key) {
 
 Ahora te pediré que te tomes un tiempo para analizar el código y entender su funcionamiento.
 - **¿Qué hace el patrón observer en este caso?**  
-Se encarga de notificar a las partículas suscritas sobre cambios de estad causados por el usuario.
+Se encarga de notificar a las partículas suscritas sobre cambios de estado causados por el usuario, específicamente con el teclado. Esto nos permitiría, si cambiamos el código, escoger qué partículas obedecen a qué botones del teclado, por decir así.
 - **¿Qué hace el patrón factory en este caso?**  
-Simplemente crea las partículas
+Simplemente crea las partículas y les asigna por defecto el estado `normal`. Crea 3 tipos de partícula, y todas quedan suscritas al observer (porque todas usan ), pero se puede cambiar el código para que no lo estén.
 - **¿Qué hace el patrón state en este caso?**  
-Se
+Es el que define el comportamiento de las partículas según el estado en el que estén, y se divide en `normal`, `attract`, `repel`, y `stop`.
+
+Experimenta con el código y realiza algunas modificaciones para entender mejor su funcionamiento. Por ejemplo:
+
+- **Adiciona un nuevo tipo de partícula.**  
+Voy a crear una partícula que *no* esté suscrita a los estados pre-establecidos.
+    ```cpp
+    //Dentro de ParticleFactory::createParticle():
+    else if (type == "comet") {
+    particle->size = 2;
+    particle->color = ofColor(ofRandom(150, 255));
+    }
+
+    //Dentro de ofApp::setup():
+    for (int i = 0; i < 50; ++i) {
+    Particle* p = ParticleFactory::createParticle("comet");
+    particles.push_back(p);
+    }
+    ```
+    Esta partícula es de un tamaño constante `2`, tiene un color en escala de grises, y **no** está suscrita al observer, por lo que no reaciona a presionar el teclado.
+
+- **Adiciona un nuevo estado.**  
+Va. Quiero hacer un estado en el que todas las partículas se muevan en una misma dirección. ¿Cómo? No sé. Lo averiguaremos :p
+    ```cpp
+    //Primero que nada, en ofApp.h:
+    class OrderState : public State {
+    public:
+        void update(Particle* particle) override;
+    };
+    ```
+- **Modifica el comportamiento de las partículas.**
+- **Crea otros eventos para notificar a las partículas.**
