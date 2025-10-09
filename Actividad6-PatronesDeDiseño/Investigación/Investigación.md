@@ -50,18 +50,15 @@ public:
     ofVec2f velocity;
     float size;
     ofColor color;
-
 private:
     State* state;
 };
-
 
 class NormalState : public State {
 public:
     void update(Particle* particle) override;
     virtual void onEnter(Particle* particle) override;
 };
-
 
 class AttractState : public State {
 public:
@@ -216,7 +213,6 @@ Particle* ParticleFactory::createParticle(const std::string& type) {
     return particle;
 }
 
-
 void ofApp::setup() {
     ofBackground(0);
     // Crear partículas usando la fábrica
@@ -237,16 +233,13 @@ void ofApp::setup() {
         particles.push_back(p);
         addObserver(p);
     }
-
 }
-
 
 void ofApp::update() {
     for (Particle* p : particles) {
         p->update();
     }
 }
-
 
 void ofApp::draw() {
     for (Particle* p : particles) {
@@ -282,6 +275,7 @@ Experimenta con el código y realiza algunas modificaciones para entender mejor 
 
 - **Adiciona un nuevo tipo de partícula.**  
 Voy a crear una partícula que *no* esté suscrita a los estados pre-establecidos.
+
     ```cpp
     //Dentro de ParticleFactory::createParticle():
     else if (type == "comet") {
@@ -298,13 +292,48 @@ Voy a crear una partícula que *no* esté suscrita a los estados pre-establecido
     Esta partícula es de un tamaño constante `2`, tiene un color en escala de grises, y **no** está suscrita al observer, por lo que no reaciona a presionar el teclado.
 
 - **Adiciona un nuevo estado.**  
-Va. Quiero hacer un estado en el que todas las partículas se muevan en una misma dirección. ¿Cómo? No sé. Lo averiguaremos :p
+Va. Quiero hacer un estado en el que todas las partículas se muevan en una misma dirección. ¿Cómo? No sé. Lo averiguaremos :p  
+Primero que nada, toca crear la subclase en el `ofApp.h:`
+
     ```cpp
-    //Primero que nada, en ofApp.h:
     class OrderState : public State {
     public:
         void update(Particle* particle) override;
+        virtual void onEnter(Particle* particle) override;
     };
     ```
-- **Modifica el comportamiento de las partículas.**
+    La creé con tanto `update()` como `onEnter()` (copiando lo que ya estaba para el estado `NormalState` :p) porque necesito cambiar la velocidad de las partículas en 1 momento, y luego dejarlas a que se muevan de forma constante.  
+    Y en `ofApp.cpp:`
+
+    ```cpp
+    //Añado el evento dentro del método onNotify() de Particle
+    void Particle::onNotify(const std::string& event) {
+        else if (event == "order") {
+            setState(new OrderState());
+        }
+    }
+
+    //Y escribo los dos de OrderState
+    void OrderState::onEnter(Particle* particle) {
+        particle->velocity.x = 3;
+        particle->velocity.y = 0;
+    }
+
+    void OrderState::update(Particle* particle) {
+        particle->position += particle->velocity;
+    }
+
+    //Y por último añado el último else if para llamar OrderState con la tecla "o"
+    void ofApp::keyPressed(int key) {
+        else if (key == 'o') {
+            notify("order");
+        }
+    }
+    ```
+    Y ya, así facilito :p
+
+- **Modifica el comportamiento de las partículas.**  
+Skip táctico
+
 - **Crea otros eventos para notificar a las partículas.**
+Skip doble táctico
