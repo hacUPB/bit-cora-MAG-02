@@ -1,88 +1,93 @@
 #pragma once
 
 #include "ofMain.h"
+#include <vector>
+#include <string>
 
-// CLASE PADRE
-class Shape {
+class Observer {
+public:
+    virtual void onNotify(const std::string& event) = 0;
+};
+
+class Subject {
+public:
+    void addObserver(Observer* observer);
+    void removeObserver(Observer* observer);
+protected:
+    void notify(const std::string& event);
 private:
-	ofColor color;
-	float size;
-	int key;
+    std::vector<Observer*> observers;
+};
 
+class Particle;
+
+class State {
 public:
-	//Constructor
-	Shape(ofColor _color, float _size, int _key)
-		: color(_color)
-		, size(_size)
-		, key(_key) { };
-
-	//Destructor
-	virtual ~Shape() { };
-
-	// --- Métodos Virtuales ---
-	virtual void draw(float x, float y) = 0;
-	virtual void fun() = 0;
-
-	// --- Métodos Comunes ---
-	void randomColor() {
-		color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
-	}
-
-	// --- Getters y Setters ---
-	ofColor getColor() const { return color; }
-	void setColor(ofColor c) { color = c; }
-
-	float getSize() const { return size; }
-	void setSize(float s) { size = s; }
+    virtual void update(Particle* particle) = 0;
+    virtual void onEnter(Particle* particle) {}
+    virtual void onExit(Particle* particle) {}
+    virtual ~State() = default;
 };
 
-// SUBCLASES
-class Triangle : Shape {
-
-};
-
-class Square : Shape {
-
-};
-
-class Circle : Shape {
+class Particle : public Observer {
 public:
-	//Constructor
-	Circle(ofColor color, float size, int key) : Shape(color, size, key) {}
+    Particle();
+    ~Particle();
 
-	void draw(float x, float y) override {
-		ofSetColor(getColor());
-		ofDrawCircle(x, y, getSize());
-	}
+    void update();
+    void draw();
+    void onNotify(const std::string& event) override;
+    void setState(State* newState);
 
-	void fun() override {
-		//Cambiar de tamaño a uno rándom
-		setSize(ofRandom(10, 50));
-	}
+    ofVec2f position;
+    ofVec2f velocity;
+    float size;
+    ofColor color;
+
+private:
+    State* state;
 };
 
-class Other : Shape {
 
+class NormalState : public State {
+public:
+    void update(Particle* particle) override;
+    virtual void onEnter(Particle* particle) override;
 };
 
-// OPEN FRAMEWORKS
-class ofApp : public ofBaseApp{
 
-	public:
-		void setup();
-		void update();
-		void draw();
+class AttractState : public State {
+public:
+    void update(Particle* particle) override;
+};
 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
+class RepelState : public State {
+public:
+    void update(Particle* particle) override;
+};
+
+class StopState : public State {
+public:
+    void update(Particle* particle) override;
+};
+
+class OrderState : public State {
+public:
+    void update(Particle* particle) override;
+    virtual void onEnter(Particle* particle) override;
+};
+
+class ParticleFactory {
+public:
+    static Particle* createParticle(const std::string& type);
+};
+
+class ofApp : public ofBaseApp, public Subject {
+public:
+    void setup();
+    void update();
+    void draw();
+    void keyPressed(int key);
+private:
+    std::vector<Particle*> particles;
 };

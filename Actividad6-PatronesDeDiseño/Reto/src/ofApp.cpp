@@ -1,75 +1,192 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
-void ofApp::setup(){
-
+void Subject::addObserver(Observer* observer) {
+    observers.push_back(observer);
 }
 
-//--------------------------------------------------------------
-void ofApp::update(){
-
+void Subject::removeObserver(Observer* observer) {
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
-//--------------------------------------------------------------
-void ofApp::draw(){
-
+void Subject::notify(const std::string& event) {
+    for (Observer* observer : observers) {
+        observer->onNotify(event);
+    }
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+Particle::Particle() {
+    // Inicializar propiedades
+    position = ofVec2f(ofRandomWidth(), ofRandomHeight());
+    velocity = ofVec2f(ofRandom(-0.5f, 0.5f), ofRandom(-0.5f, 0.5f));
+    size = ofRandom(2, 5);
+    color = ofColor(255);
 
+    state = new NormalState();
 }
 
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-	switch (key) {
-	case 'x':
-		ofLog() << "Tecla detectada: " << key;
-		break;
-	}
+Particle::~Particle() {
+    delete state;
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
+void Particle::setState(State* newState) {
+    if (state != nullptr) {
+        state->onExit(this);
+        delete state;
+    }
+    state = newState;
+    if (state != nullptr) {
+        state->onEnter(this);
+    }
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
+void Particle::update() {
+    if (state != nullptr) {
+        state->update(this);
+    }
+    // Mantener las partículas dentro de la ventana
+    if (position.x < 0 || position.x > ofGetWidth()) velocity.x *= -1;
+    if (position.y < 0 || position.y > ofGetHeight()) velocity.y *= -1;
 }
 
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
+void Particle::draw() {
+    ofSetColor(color);
+    ofDrawCircle(position, size);
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
+void Particle::onNotify(const std::string& event) {
+    if (event == "attract") {
+        setState(new AttractState());
+    }
+    else if (event == "repel") {
+        setState(new RepelState());
+    }
+    else if (event == "stop") {
+        setState(new StopState());
+    }
+    else if (event == "normal") {
+        setState(new NormalState());
+    }
+    else if (event == "order") {
+        setState(new OrderState());
+    }
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
+void NormalState::update(Particle* particle) {
+    particle->position += particle->velocity;
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
+void NormalState::onEnter(Particle* particle) {
+    particle->velocity = ofVec2f(ofRandom(-0.5f, 0.5f), ofRandom(-0.5f, 0.5f));
 }
 
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
+void AttractState::update(Particle* particle) {
+    ofVec2f mousePosition(((ofApp*)ofGetAppPtr())->mouseX, ((ofApp*)ofGetAppPtr())->mouseY);
+    ofVec2f direction = mousePosition - particle->position;
+    direction.normalize();
+    particle->velocity += direction * 0.05;
+    ofClamp(particle->velocity.x, -3, 3);
+    particle->position += particle->velocity * 0.2;
 }
 
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
+void RepelState::update(Particle* particle) {
+    ofVec2f mousePosition(((ofApp*)ofGetAppPtr())->mouseX, ((ofApp*)ofGetAppPtr())->mouseY);
+    ofVec2f direction = particle->position - mousePosition;
+    direction.normalize();
+    particle->velocity += direction * 0.05;
+    ofClamp(particle->velocity.x, -3, 3);
+    particle->position += particle->velocity * 0.2;
 }
 
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void StopState::update(Particle* particle) {
+    particle->velocity.x = 0;
+    particle->velocity.y = 0;
+}
 
+void OrderState::onEnter(Particle* particle) {
+    particle->velocity.x = 3;
+    particle->velocity.y = 0;
+}
+
+void OrderState::update(Particle* particle) {
+    particle->position += particle->velocity;
+}
+
+Particle* ParticleFactory::createParticle(const std::string& type) {
+    Particle* particle = new Particle();
+
+    if (type == "star") {
+        particle->size = ofRandom(2, 4);
+        particle->color = ofColor(255, 0, 0);
+    }
+    else if (type == "shooting_star") {
+        particle->size = ofRandom(3, 6);
+        particle->color = ofColor(0, 255, 0);
+        particle->velocity *= 3;
+    }
+    else if (type == "planet") {
+        particle->size = ofRandom(5, 8);
+        particle->color = ofColor(0, 0, 255);
+    }
+    else if (type == "comet") {
+        particle->size = 2;
+        particle->color = ofColor(ofRandom(150, 255));
+    }
+    return particle;
+}
+
+
+void ofApp::setup() {
+    ofBackground(0);
+    // Crear partículas usando la fábrica
+    for (int i = 0; i < 75; ++i) {
+        Particle* p = ParticleFactory::createParticle("star");
+        particles.push_back(p);
+        addObserver(p);
+    }
+
+    for (int i = 0; i < 5; ++i) {
+        Particle* p = ParticleFactory::createParticle("shooting_star");
+        particles.push_back(p);
+        addObserver(p);
+    }
+
+    for (int i = 0; i < 10; ++i) {
+        Particle* p = ParticleFactory::createParticle("planet");
+        particles.push_back(p);
+        addObserver(p);
+    }
+    for (int i = 0; i < 50; ++i) {
+        Particle* p = ParticleFactory::createParticle("comet");
+        particles.push_back(p);
+    }
+}
+
+void ofApp::update() {
+    for (Particle* p : particles) {
+        p->update();
+    }
+}
+
+void ofApp::draw() {
+    for (Particle* p : particles) {
+        p->draw();
+    }
+}
+
+void ofApp::keyPressed(int key) {
+    if (key == 's') {
+        notify("stop");
+    }
+    else if (key == 'a') {
+        notify("attract");
+    }
+    else if (key == 'r') {
+        notify("repel");
+    }
+    else if (key == 'n') {
+        notify("normal");
+    }
+    else if (key == 'o') {
+        notify("order");
+    }
 }
