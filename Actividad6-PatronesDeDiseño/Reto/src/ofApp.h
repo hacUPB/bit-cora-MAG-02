@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+
+//OBSERVER
 class Observer {
 public:
     virtual void onNotify(const std::string& event) = 0;
@@ -19,16 +21,46 @@ private:
     std::vector<Observer*> observers;
 };
 
-class Particle;
+
+// ----- ESTADOS -----
+class Particle; //Esta línea se tiene que poner antes de crear los estados :p
 
 class State {
 public:
-    virtual void update(Particle* particle) = 0;
-    virtual void onEnter(Particle* particle) {}
-    virtual void onExit(Particle* particle) {}
-    virtual ~State() = default;
+	virtual void update(Particle * particle) = 0;
+	virtual void onEnter(Particle * particle) { }
+	virtual void onExit(Particle * particle) { }
+	virtual ~State() = default;
+};
+//ESTADOS PLANET & COMET
+class NormalState : public State {
+public:
+	void update(Particle * particle) override;
+	virtual void onEnter(Particle * particle) override;
 };
 
+class AttendState : public State {
+public:
+	void update(Particle * particle) override;
+};
+
+class IgnoreState : public State {
+public:
+	void update(Particle * particle) override;
+};
+
+class UpState : public State {
+public:
+	void update(Particle * particle) override;
+};
+
+class DownState : public State {
+public:
+	void update(Particle * particle) override;
+};
+
+
+//PARTÍCULA
 class Particle : public Observer {
 public:
     Particle();
@@ -44,44 +76,21 @@ public:
     float size;
     ofColor color;
 
+	float speedMult;
+
 private:
     State* state;
 };
 
 
-class NormalState : public State {
-public:
-    void update(Particle* particle) override;
-    virtual void onEnter(Particle* particle) override;
-};
-
-
-class AttractState : public State {
-public:
-    void update(Particle* particle) override;
-};
-
-class RepelState : public State {
-public:
-    void update(Particle* particle) override;
-};
-
-class StopState : public State {
-public:
-    void update(Particle* particle) override;
-};
-
-class OrderState : public State {
-public:
-    void update(Particle* particle) override;
-    virtual void onEnter(Particle* particle) override;
-};
-
+//FACTORY
 class ParticleFactory {
 public:
     static Particle* createParticle(const std::string& type);
 };
 
+
+//GENERALES
 class ofApp : public ofBaseApp, public Subject {
 public:
     void setup();

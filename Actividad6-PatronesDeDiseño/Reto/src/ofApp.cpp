@@ -20,6 +20,7 @@ Particle::Particle() {
     velocity = ofVec2f(ofRandom(-0.5f, 0.5f), ofRandom(-0.5f, 0.5f));
     size = ofRandom(2, 5);
     color = ofColor(255);
+	speedMult = 1;
 
     state = new NormalState();
 }
@@ -54,21 +55,21 @@ void Particle::draw() {
 }
 
 void Particle::onNotify(const std::string& event) {
-    if (event == "attract") {
-        setState(new AttractState());
-    }
-    else if (event == "repel") {
-        setState(new RepelState());
-    }
-    else if (event == "stop") {
-        setState(new StopState());
-    }
-    else if (event == "normal") {
+    if (event == "normal") {
         setState(new NormalState());
     }
-    else if (event == "order") {
-        setState(new OrderState());
+    else if (event == "attend") {
+        setState(new AttendState());
     }
+    else if (event == "ignore") {
+        setState(new IgnoreState());
+	}
+	else if (event == "up") {
+		setState(new UpState());
+	}
+	else if (event == "down") {
+		setState(new DownState());
+	}
 }
 
 void NormalState::update(Particle* particle) {
@@ -77,59 +78,53 @@ void NormalState::update(Particle* particle) {
 
 void NormalState::onEnter(Particle* particle) {
     particle->velocity = ofVec2f(ofRandom(-0.5f, 0.5f), ofRandom(-0.5f, 0.5f));
+	particle->velocity *= particle->speedMult;
 }
 
-void AttractState::update(Particle* particle) {
-    ofVec2f mousePosition(((ofApp*)ofGetAppPtr())->mouseX, ((ofApp*)ofGetAppPtr())->mouseY);
-    ofVec2f direction = mousePosition - particle->position;
-    direction.normalize();
-    particle->velocity += direction * 0.05;
-    ofClamp(particle->velocity.x, -3, 3);
-    particle->position += particle->velocity * 0.2;
+void AttendState::update(Particle* particle) {
+	ofVec2f mousePosition(((ofApp *)ofGetAppPtr())->mouseX, ((ofApp *)ofGetAppPtr())->mouseY);
+	ofVec2f direction = mousePosition - particle->position;
+	direction.normalize();
+
+	particle->velocity += direction * 0.01 * particle->speedMult;
+
+	particle->position += particle->velocity;
+
+	if (particle->position.distance(mousePosition) <= 1) {
+		particle->color = ofColor(0); //Esto porque borrar las partículas requeriría un proceso más largo y ya está demasiado tarde.
+	}
 }
 
-void RepelState::update(Particle* particle) {
-    ofVec2f mousePosition(((ofApp*)ofGetAppPtr())->mouseX, ((ofApp*)ofGetAppPtr())->mouseY);
-    ofVec2f direction = particle->position - mousePosition;
-    direction.normalize();
-    particle->velocity += direction * 0.05;
-    ofClamp(particle->velocity.x, -3, 3);
-    particle->position += particle->velocity * 0.2;
+void IgnoreState::update(Particle* particle) {
+	particle->position += particle->velocity;
 }
 
-void StopState::update(Particle* particle) {
-    particle->velocity.x = 0;
-    particle->velocity.y = 0;
+void UpState::update(Particle* particle) {
+	particle->position += particle->velocity;
+	particle->velocity *= 1.005f;
 }
 
-void OrderState::onEnter(Particle* particle) {
-    particle->velocity.x = 3;
-    particle->velocity.y = 0;
-}
-
-void OrderState::update(Particle* particle) {
-    particle->position += particle->velocity;
+void DownState::update(Particle * particle) {
+	particle->position += particle->velocity;
+	particle->velocity *= 0.995f;
 }
 
 Particle* ParticleFactory::createParticle(const std::string& type) {
     Particle* particle = new Particle();
 
-    if (type == "star") {
-        particle->size = ofRandom(2, 4);
-        particle->color = ofColor(255, 0, 0);
-    }
-    else if (type == "shooting_star") {
-        particle->size = ofRandom(3, 6);
-        particle->color = ofColor(0, 255, 0);
-        particle->velocity *= 3;
-    }
-    else if (type == "planet") {
-        particle->size = ofRandom(5, 8);
-        particle->color = ofColor(0, 0, 255);
+    if (type == "planet") {
+        particle->size = ofRandom(4, 6);
+        particle->color = ofColor(0, 0, 255); //Planetas Azules
     }
     else if (type == "comet") {
-        particle->size = 2;
-        particle->color = ofColor(ofRandom(150, 255));
+        particle->size = ofRandom(2, 3);
+		particle->color = ofColor(ofRandom(255)); //Cometas en escala de Grises
+		particle->speedMult = 3; //Pa' que anden con Nitro
+    }
+    else if (type == "star") {
+        particle->size = ofRandom(11, 14);
+        particle->color = ofColor(255); //Estrellas blancas bien bellas
+		particle->speedMult = 0.01f; //Pa' que se muevan muuuucho más lento
     }
     return particle;
 }
@@ -139,26 +134,22 @@ void ofApp::setup() {
     ofBackground(0);
     // Crear partículas usando la fábrica
     for (int i = 0; i < 75; ++i) {
-        Particle* p = ParticleFactory::createParticle("star");
+        Particle* p = ParticleFactory::createParticle("comet");
         particles.push_back(p);
         addObserver(p);
     }
 
-    for (int i = 0; i < 5; ++i) {
-        Particle* p = ParticleFactory::createParticle("shooting_star");
-        particles.push_back(p);
-        addObserver(p);
-    }
-
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 15; ++i) {
         Particle* p = ParticleFactory::createParticle("planet");
         particles.push_back(p);
         addObserver(p);
     }
-    for (int i = 0; i < 50; ++i) {
-        Particle* p = ParticleFactory::createParticle("comet");
-        particles.push_back(p);
-    }
+
+	for (int i = 0; i < 5; ++i) {
+		Particle * p = ParticleFactory::createParticle("star");
+		particles.push_back(p);
+		addObserver(p);
+	}
 }
 
 void ofApp::update() {
@@ -174,19 +165,24 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
-    if (key == 's') {
-        notify("stop");
+    if (key == 'a') {
+        notify("attend");
+		cout << "Tecla \"a\" presionada. Estado AttendState.\n";
     }
-    else if (key == 'a') {
-        notify("attract");
-    }
-    else if (key == 'r') {
-        notify("repel");
-    }
+    else if (key == 'i') {
+        notify("ignore");
+		cout << "Tecla \"i\" presionada. Estado IgnoreState.\n";
+	}
     else if (key == 'n') {
         notify("normal");
+		cout << "Tecla \"n\" presionada. Estado NormalState.\n";
     }
-    else if (key == 'o') {
-        notify("order");
-    }
+	else if (key == 'u') {
+		notify("up");
+		cout << "Tecla \"u\" presionada. Estado UpState.\n";
+	}
+	else if (key == 'd') {
+		notify("down");
+		cout << "Tecla \"d\" presionada. Estado DownState.\n";
+	}
 }
