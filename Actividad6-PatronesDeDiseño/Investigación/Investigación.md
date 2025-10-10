@@ -335,5 +335,5 @@ Primero que nada, toca crear la subclase en el `ofApp.h:`
 - **Modifica el comportamiento de las partículas.**  
 Skip táctico
 
-- **Crea otros eventos para notificar a las partículas.**
+- **Crea otros eventos para notificar a las partículas.**  
 Skip doble táctico
