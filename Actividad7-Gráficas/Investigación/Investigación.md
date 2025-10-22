@@ -49,10 +49,18 @@ Se convierten las *coordenadas locales* a *coordenadas del mundo*, luego se conv
 > Correcto! Según *ChatGPT*, a este proceso se le llama *"MVP Matrix"*, MVP siendo *"Model-View-Projection"*. 
 #### ¿Al proceso de convertir los triángulos en fragmentos se le llama?
 Rasterización también? Ahí sí me perdí :c
+> Sí es rasterización! Wooo. La definición de ChatGPT dice "Es la etapa en la que se determinan los píxeles que corresponden a cada triángulo".
 #### ¿Qué es el framebuffer?
 Es la "fila" de frames que están listos para mostrarse al usuario.
+> Lo que dije no está mal, pero sí muy simplificado. ChatGPT dijo:  
+> "El framebuffer es una región de memoria donde se almacena la imagen final renderizada, antes de ser mostrada en pantalla. Contiene buffers para color, profundidad (Z-buffer) y, a veces, transparencia o stenci".
 #### ¿Para qué se usa el Z-buffer o depth buffer en el render pipeline?
 Para diferenciar qué objeto debería verse en pantalla, y qué objetos en realidad están siendo cubiertos por otro objeto.
-
+> Correct! Se podría decir que guarda la profundidad, es decir, la distancia a la cámara. 
 ### Luego de ver el segundo video entiendes por qué la GPU tiene que funcionar tan rápido y de manera paralela. ¿Por qué?
-El trabajo en paralelo es nada más una cuestión de que necesita realizar muchísimos cálculos al mismo tiempo. ¿Por qué tiene que hacer todo eso? Porque es la encargada de dar feeback muy directo al Usuario. 
+El trabajo en paralelo es nada más una cuestión de que la GPU necesita realizar muchísimos cálculos al mismo tiempo. ¿Por qué tiene que hacer todo eso? Porque es la encargada de dar el feeback visual al usuario, y ps ese tiene que ser muy muy rápido y consistente.
+> Resumen, cortesía de ChatGPT:  
+> "En resumen: la GPU tiene que ser rápida **porque** debe procesar enormes volúmenes de datos gráficos en muy poco tiempo; y debe ser paralela **porque** esos datos (píxeles, vértices) muchas veces requieren el mismo tipo de operación aplicada a cada uno, lo que se puede distribuir entre muchos núcleos simultáneamente".
+
+Comentario no relacionado: ¿Por qué ChatGPT decidió resaltar los "porque"? Que palabra tan mid.
+
