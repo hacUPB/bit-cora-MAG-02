@@ -92,6 +92,25 @@ Está tomando una variable `time` que le envió el programa como un `uniform`. U
 `shader.frag`:  
 Este no es que no esté haiciendo nada, solo está haciendo mucho menos que la anterior :p Esta vez él se encarga de cambiar el color de salida los `fragments` a `globalColor`, y yap :>
 #### Modifica el código de la actividad para cambiar el color de cada uno de los píxeles de la pantalla personalizando el fragment shader.
+Hice poquitos cambios, pero ahora con esto el fragment shader cambia los valores `r`, `g`, `b`, y `a` de `globalColor` según el valor de `time`.
 ```glsl
+OF_GLSL_SHADER_HEADER
 
+uniform vec4 globalColor;
+
+// Añado el uniform de time para usarlo
+uniform float time;
+
+out vec4 outputColor;
+ 
+void main()
+{
+    //Y le voy a cambiar un poco los atributos a globalColor según time
+    float r = abs(sin(time - 227));
+    float g = abs(sin(time + 227)); //Por qué 227? Una fecha importante :> 
+    float b = abs(cos(time));
+    float a = abs(sin(time));
+
+    outputColor = vec4(r, g, b, a) * globalColor;
+}
 ```
