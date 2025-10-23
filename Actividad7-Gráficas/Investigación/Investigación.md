@@ -92,3 +92,6 @@ Está tomando una variable `time` que le envió el programa como un `uniform`. U
 `shader.frag`:  
 Este no es que no esté haiciendo nada, solo está haciendo mucho menos que la anterior :p Esta vez él se encarga de cambiar el color de salida los `fragments` a `globalColor`, y yap :>
 #### Modifica el código de la actividad para cambiar el color de cada uno de los píxeles de la pantalla personalizando el fragment shader.
+```glsl
+
+```
