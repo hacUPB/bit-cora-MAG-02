@@ -64,3 +64,31 @@ El trabajo en paralelo es nada más una cuestión de que la GPU necesita realiza
 
 Comentario no relacionado: ¿Por qué ChatGPT decidió resaltar los "porque"? Que palabra tan mid.
 
+## Actividad 2
+#### ¿Cómo funciona?
+El código simplemente carga los shaders en `setup()` y en `draw()` crea un rectángulo de color blanco, pero antes de crearlo llama a los shaders para que empiecen.
+#### ¿Qué resultados obtuviste?
+Al hacer el experimento de comentar los llamados de shaders, simplemente aparecía un rectángulo blanco, pero al incluir los shaders el rectángulo pasaba a tener un difuminado de colores bastante lindo.
+#### ¿Estás usando un vertex shader?
+En teoría sí, pero realmente no veo qué está logrando. Según yo, el rectángulo creado ya existe en la posición necesaria, pero quizá el vertex shader está considerándolo como 2 triángulos? No estoy seguro del todo, so:
+> Chat GPT dice que, aunque no aporte mucho, el shader sí se está utilizando. El pipeline de OpenGL siempre pasa por ambos shaders.
+#### ¿Estás usando un fragment shader?
+Claro que sí! Cuando comentamos el `shader.begin()` y `shader.end()` solo se vio un rectángulo blanco, entonces el fragment shader sí o sí tiene que estar haciendo algo.
+#### Analiza el código de los shaders. ¿Qué hace cada uno?
+`shader.vert`:  
+No sé que es un `uniform` *(sé que lo vamos a ver ahorita pero ajá)*, pero lo llama primero. Luego, multiplica ese `uniform` por la posición del *vertex*, y ps ya.  
+`shader.frag`:  
+Toma la coordenada *x* del *fragment* y la divide entre *1024*, luego divide la *y* entre *768*, y luego asigna esos resultados al valor de rojo *r* y el de verde *g* del *fragment* respectivamente. Esto es lo que causa el degradado de colores, pues el color final del *fragment* está cambiando levemente según la coordenada.
+
+## Actividad 3
+#### ¿Qué es un uniform?
+Pues por solo lógica y a punta de adivinar, diré que un uniform es casi como un "static", en el sentido de que se puede cambiar de manera general para todo el código.
+> En *GLSL*, un `uniform` es una **variable global de solo lectura** que el **programa C++ (`ofApp`)** le envía al shader **desde la CPU hacia la GPU** antes de dibujar algo.
+#### ¿Cómo funciona el código de aplicación, los shaders y cómo se comunican estos?
+El código, en muy resumidas cuentas, está creando un plano de vértices y cambiando constantemente la variable `globalColor` llamando `ofSetColor()`. El color se determina según la coordenada en *x* del mouse, y la rotación del plano según la *y*.  
+Los shaders cambiaron papeles esta vez, y ahora el vertex es el que más cosas está haciendo:  
+`shader.vert`:  
+Está tomando una variable `time` que le envió el programa como un `uniform`. Usando eso y la posición actual en *x* del *vertex* específico, crea una onda de seno en el plano, ya la va moviendo hacia la derecha afectando las posiciones en *y* de los distintos *vertex*.  
+`shader.frag`:  
+Este no es que no esté haiciendo nada, solo está haciendo mucho menos que la anterior :p Esta vez él se encarga de cambiar el color de salida los `fragments` a `globalColor`, y yap :>
+#### Modifica el código de la actividad para cambiar el color de cada uno de los píxeles de la pantalla personalizando el fragment shader.
