@@ -117,29 +117,20 @@ void main()
 
 ## Actividad 4
 #### ¿Qué hace el código del ejemplo?
-El código en sí crea un rectángulo sobre el cual se aplicará una textura. Esta textura se mueve según la posición del mouse respecto al centro de la pantalla.
+El código en sí crea un rectángulo sobre el cual se aplicará una textura. Esta textura se mueve según la posición en *x* del mouse relativa al tamaño de la ventana.
 #### ¿Cómo funciona el código de aplicación, los shaders y cómo se comunican estos?
-El código de `ofApp.cpp` en realidad hace muy poco trabajo.
-```cpp
-void ofApp::setup() {
-	ofDisableArbTex();
-	if(ofIsGLProgrammableRenderer()){
-		shader.load("shadersGL3/shader");
-	}else{
-		shader.load("shadersGL2/shader");
-	}
+El código de `ofApp.cpp` en realidad hace muy poco trabajo.  
+- El `setup()` es simplemente hacer `load()` de los *shaders*, la imagen que será la textura, y crear el plano con las dimensiones de la imagen.
+- El `draw()` ya tiene más trabajos. Algo importante que hace es el `bind()` de la textura, lo que funciona básicamente como un *uniform*, y nos permite acceder a ella en el shader como `tex0`.
+- También usa `ofMap()` con la posición en *x* del mouse pero no entiendo bien qué logra con eso xd Lo averiguaremos después.
+- Y, por último, crea los *uniforms* de `mouseX` y `resolution`. También hace un `ofPushMatrix()` y `ofPopMatrix` que no entiendo xd
 
-	if(img.load("img.jpg")) {
-		img.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-	}
-
-	plane.set(800, 600, 10, 10);
-	plane.mapTexCoords(0, 0, img.getWidth(), img.getHeight());
-}
-```
-El `setup()` es simplemente preparal los *shaders*, la imagen que será la textura, y prepara el plano para renderizalo.
+Los *shaders* se encargan de aplicar la textura y hacer que se mueva con el mouse. 
+- El *vertex shader* tiene un output nuevo, que es el `texCoordVarying`, que simplemente es `texcoord.x + mouseX, texcoord.y`. Eso es todo lo que se necesita pa' que la textura se mueva :p
+- El *fragment shader* se encarga de que el movimieno se ajuste a la resolución de la pantalla, y si lo quitamos nos da un ataque de epilepsia xd
 
 #### Realiza modificaciones a ofApp.cpp y al vertex shader para conseguir otros comportamientos.
+Mi primer experimento fue comentar agresivamente las líneas que no entendía para ver cómo moría el código :p
 
 
 #### Realiza modificaciones al fragment shader para conseguir otros comportamientos.
