@@ -114,3 +114,32 @@ void main()
     outputColor = vec4(r, g, b, a) * globalColor;
 }
 ```
+
+## Actividad 4
+#### ¿Qué hace el código del ejemplo?
+El código en sí crea un rectángulo sobre el cual se aplicará una textura. Esta textura se mueve según la posición del mouse respecto al centro de la pantalla.
+#### ¿Cómo funciona el código de aplicación, los shaders y cómo se comunican estos?
+El código de `ofApp.cpp` en realidad hace muy poco trabajo.
+```cpp
+void ofApp::setup() {
+	ofDisableArbTex();
+	if(ofIsGLProgrammableRenderer()){
+		shader.load("shadersGL3/shader");
+	}else{
+		shader.load("shadersGL2/shader");
+	}
+
+	if(img.load("img.jpg")) {
+		img.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	}
+
+	plane.set(800, 600, 10, 10);
+	plane.mapTexCoords(0, 0, img.getWidth(), img.getHeight());
+}
+```
+El `setup()` es simplemente preparal los *shaders*, la imagen que será la textura, y prepara el plano para renderizalo.
+
+#### Realiza modificaciones a ofApp.cpp y al vertex shader para conseguir otros comportamientos.
+
+
+#### Realiza modificaciones al fragment shader para conseguir otros comportamientos.
