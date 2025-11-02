@@ -130,7 +130,8 @@ Los *shaders* se encargan de aplicar la textura y hacer que se mueva con el mous
 - El *fragment shader* se encarga de que el movimieno se ajuste a la resolución de la pantalla, y si lo quitamos nos da un ataque de epilepsia xd
 
 #### Realiza modificaciones a ofApp.cpp y al vertex shader para conseguir otros comportamientos.
-Mi primer experimento fue comentar agresivamente las líneas que no entendía para ver cómo moría el código :p
-
+Mi primer experimento fue comentar agresivamente las líneas que no entendía para ver cómo moría el código :p  
+Bueno no, primero quité los shaders para ver qué hacía el código sin ellos. Efectivamente, solo hace un rectángulo como que azul oscuro. Ahora sí, quitar código agresivamente:  
+`ofPushMatrix()` y `ofPopMatrix` creo que no aportan nada al código? Realmente no vi una diferencia al comentar ambas líneas. Según entiendo, estas funciones sirven para cambiar el sistema de coordenadas que se usará al dibujar algo en pantalla, pero como esta figura es un plano con una textura seguramente no se nota gran diferencia.
 
 #### Realiza modificaciones al fragment shader para conseguir otros comportamientos.
