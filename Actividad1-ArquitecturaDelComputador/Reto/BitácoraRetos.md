@@ -32,7 +32,7 @@ Facilito también! Solo tocó consultar las instrucciones de Branching :p
 Este debería ser fácil, creo yo.  
 Efectivamente, sólo había que leer la Lecture 4 porque tienen el ejemplo clarito ahí :p (Pg. 62). Algo que me confunde es ¿por qué *D* aparece como 65490 cuando le resto 100? Estoy asumiendo que es simplemente la manera de manejar negativos de *Assembly*.
 
-# Reto 8
+## Reto 8
 ### Considera el siguiente programa:
 ```asm
 @var1
@@ -47,7 +47,7 @@ El programa suma los valores de 2 variables (var1 y var2) y almacena el resultad
 * **¿En qué posición de la memoria está var1, var2, y var3? ¿Por qué en esas posiciones?**  
 Están en las posiciones 16, 17, y 18, respectivamente. Esto se debe a que las posiciones 0 a 15 son variables por defecto en Hack (se conocen como "virtual registers").
 
-# Reto 9
+## Reto 9
 ### Considera el siguiente programa:
 ```c++
 i = 1
@@ -93,7 +93,7 @@ M=D
 M=M+1
 ```
 
-# Reto 10
+## Reto 10
 ### Las posiciones de memoria RAM de 0 a 15 tienen los nombres simbólico `R0` a `R15`. Escribe un programa en lenguaje ensamblador que guarde en `R1` la operación `2 * R0`.
 ```asm
 @R0
@@ -105,7 +105,7 @@ M=D
 ```
 Este código no resulta muy complejo. Es simplemente escribir una multiplicación en forma de suma :p
 
-# Reto 11
+## Reto 11
 ### Considera el siguiente programa:
 ```c++
 i = 1000
@@ -149,7 +149,7 @@ Son *labels*. Sirven para volver fácilmente a ciertas partes específicas del c
 - **¿Cuál es la diferencia entre los símbolos `i` y `CONT`?**  
 `i` es una variable, `CONT` es un label. El uno puede almacenar información, mientras que el otro simplemente representa una posición en la ROM a la que se puede saltar.
 
-# Reto 12
+## Reto 12
 ### Implemente en ensamblador:
 ```c++
 R4 = R1 + R2 + 69
@@ -167,7 +167,7 @@ M=D
 ```
 Facilito! Creo que ya le cogí el tiro al Assembly, por lo menos pa' la parte de sumas y tal :>
 
-# Reto 13
+## Reto 13
 ### Implementa en ensamblador:
 ```c++
 if R0 >= 0 then R1 = 1
@@ -199,7 +199,7 @@ M=1
 ```
 Okay este no estuvo tan facilito pero también se resolvió. El tener un ejemplo en la documentación fue de mucha ayuda, pero me alegra haber podido entender propiamente el funcionamiento del código.
 
-# Reto 14
+## Reto 14
 ### Implementa en ensamblador:
 ```c++
 R4 = RAM[R1]
@@ -214,7 +214,7 @@ M=D
 ```
 Este me dio duro porque no entendía bien el enunciado, pero una vez me lo explicó un compañero, fue comprensible. Lo más extraño/interesante fue usar `A=M` para saltar a una posición específica en la *RAM*.
 
-# Reto 15
+## Reto 15
 ### Implementa en ensamblador el siguiente problema. En la posición R0 está almacenada la dirección inicial de una región de memoria. En la posición R1 está almacenado el tamaño de la región de memoria. Almacena un -1 en esa región de memoria.
 ```asm
 @R1
@@ -247,7 +247,7 @@ M=M-1
 Este estuvo bastante complejo, la verdad. Fue cuestión de entender bien los LOOPs y hacerlos primero para asegurarse de que el código irá a donde uno desea.  
 También, aparentemente, lo hice al revés xd Mi código salta a la última posición del array y dismunuye :p
 
-# Reto 16
+## Reto 16
 ### Implementa en lenguaje ensamblador el siguiente programa:
 ```c++
 int[] arr = new int[10];
@@ -300,7 +300,7 @@ Al ser inicializada de primera, `sum` se encuentra en la posición número 16, l
 - **¿Cuál es la dirección base de `j` en la memoria RAM y por qué?**  
 Como el puesto 16 está ocupado por `sum`, `j` está en la posición 17.
 
-# Reto 17
+## Reto 17
 ### Implementa en lenguaje ensamblador:
 ```c++
 if ( (D - 7) == 0) goto a la instrucción en ROM[69]
@@ -317,14 +317,14 @@ D;JEQ
 0;JMP
 ```
 
-# Reto 18
+## Reto 18
 ### Utiliza [esta](https://nand2tetris.github.io/web-ide/bitmap) herramienta para dibujar un bitmap en la pantalla.
 
 ![Resultado](Capturas/Bitmap.png)
 
 Estuvo divertido dibujar, pero estuvo muy preocupante ver la longitud del código que es necesario para un proceso que se siente y se ve tan simple 💀
 
-# Reto 19
+## Reto 19
 Pendiente
-# Reto 20
+## Reto 20
 Pendiente
